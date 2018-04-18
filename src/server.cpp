@@ -471,6 +471,10 @@ void Server::AsyncRunStep(bool initial_step)
 	}
 
 	{
+		/*
+		 * Log Mark:Test Server::SendBlocks
+		 * As the name suggests
+		 */
 		// Send blocks to clients
 		SendBlocks(dtime);
 	}
@@ -511,6 +515,10 @@ void Server::AsyncRunStep(bool initial_step)
 		m_time_of_day_send_timer = g_settings->getFloat("time_send_interval");
 		u16 time = m_env->getTimeOfDay();
 		float time_speed = g_settings->getFloat("time_speed");
+		/*
+		 * Log Mark:Server SendTimeOfDay
+		 * As the name suggests.
+		 */
 		SendTimeOfDay(PEER_ID_INEXISTENT, time, time_speed);
 	}
 
@@ -749,6 +757,12 @@ void Server::AsyncRunStep(bool initial_step)
 				added_objects.pop();
 			}
 
+			/*
+			 * Log Mark:Server::SendActiveObjectRemoveAdd
+			 * data_buffer struct:
+			 * First:removed object
+			 * Second:Added object
+			 */
 			u32 pktSize = SendActiveObjectRemoveAdd(client->peer_id, data_buffer);
 			verbosestream << "Server: Sent object remove/add: "
 					<< removed_objects.size() << " removed, "
@@ -838,6 +852,10 @@ void Server::AsyncRunStep(bool initial_step)
 						unreliable_data += new_data;
 				}
 			}
+			/*
+			 * Log Mark:Test Server::SendActiveObjectMessages
+			 * As the name suggests.
+			 */
 			/*
 				reliable_data and unreliable_data are now ready.
 				Send them.
@@ -1049,6 +1067,8 @@ void Server::Receive()
 		NetworkPacket pkt;
 		m_con.Receive(&pkt);
 		peer_id = pkt.getPeerId();
+		infostream << "[Log Mark]:Server::Receive"
+			<<"Command="<<toServerCommandTable[pkt->getCommand()].name<<" PeerId="<<peer_id<<endl;
 		ProcessData(&pkt);
 	}
 	catch(con::InvalidIncomingDataException &e) {
@@ -1469,6 +1489,10 @@ void Server::printToConsoleOnly(const std::string &text)
 
 void Server::Send(NetworkPacket* pkt)
 {
+	infostream <<"[Log Mark]:Server::Send"
+		<< "Command="
+		<<clientCommandFactoryTable[pkt-getCommand()].name
+		<<" PeerId="<<pkt->getPeerId()<<endl;
 	m_clients.send(pkt->getPeerId(),
 		clientCommandFactoryTable[pkt->getCommand()].channel,
 		pkt,
@@ -2343,6 +2367,10 @@ void Server::SendBlocks(float dtime)
 		if(!client)
 			continue;
 
+		/*
+		 * Log Mark:Test Server::SendBlockNoLock
+		 * This function is responsible for send block data to client
+		 */
 		SendBlockNoLock(q.peer_id, block, client->serialization_version, client->net_proto_version);
 
 		client->SentBlock(q.pos);

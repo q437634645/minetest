@@ -289,6 +289,11 @@ void Client::step(float dtime)
 
 	m_time_of_day_update_timer += dtime;
 
+
+	/*
+	 * Log Mark:Test Client::ReceiveAll
+	 * Function handle received packet in a limited time
+	 */
 	ReceiveAll();
 
 	/*
@@ -790,6 +795,10 @@ void Client::ReceiveAll()
 			break;
 
 		try {
+			/*
+			 * Test Client::Receive
+			 * This function recevie and process a packet
+			 */
 			Receive();
 			g_profiler->graphAdd("client_received_packets", 1);
 		}
@@ -809,6 +818,10 @@ void Client::Receive()
 	DSTACK(FUNCTION_NAME);
 	NetworkPacket pkt;
 	m_con.Receive(&pkt);
+	infostream <<"[Log Mark]:Client::Receive"
+		<< "Command="
+		<<serverCommandFactoryTable[pkt-getCommand()].name
+		<<" PeerId="<<pkt->getPeerId()<<endl;
 	ProcessData(&pkt);
 }
 
@@ -875,6 +888,10 @@ void Client::ProcessData(NetworkPacket *pkt)
 
 void Client::Send(NetworkPacket* pkt)
 {
+	infostream <<"[Log Mark]:Client::Send"
+		<< "Command="
+		<<serverCommandFactoryTable[pkt-getCommand()].name
+		<<" PeerId="<<pkt->getPeerId()<<endl;
 	m_con.Send(PEER_ID_SERVER,
 		serverCommandFactoryTable[pkt->getCommand()].channel,
 		pkt,
@@ -911,6 +928,11 @@ void writePlayerPos(LocalPlayer *myplayer, ClientMap *clientMap, NetworkPacket *
 	*pkt << fov << wanted_range;
 }
 
+/*
+ *Log Mark:Test Client::interact
+ *This function process the interact of client between pointed
+ *Moreover,it send the packet about interact
+ */
 void Client::interact(u8 action, const PointedThing& pointed)
 {
 	if(m_state != LC_Ready) {

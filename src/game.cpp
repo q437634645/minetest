@@ -1604,6 +1604,13 @@ bool Game::startup(bool *kill,
 	if (!init(map_dir, address, port, gamespec))
 		return false;
 
+	/*
+	 * Log Mark:Test Game::createClient
+	 * There are two function inside.
+	 * 1.Game::connectToServer
+	 * 2.Game::getserverContent 
+	 * This test is main focus on game initalization
+	 */
 	if (!createClient(playername, password, address, port))
 		return false;
 
@@ -1672,6 +1679,9 @@ void Game::run()
 		hud->resizeHotbar();
 
 		updateProfilers(stats, draw_times, dtime);
+		/*
+		 * Log Mark:Test Game::processUserInput
+		 */
 		processUserInput(dtime);
 		// Update camera before player movement to avoid camera lag of one frame
 		updateCameraDirection(&cam_view_target, dtime);
@@ -1680,8 +1690,20 @@ void Game::run()
 		cam_view.camera_pitch += (cam_view_target.camera_pitch -
 				cam_view.camera_pitch) * m_cache_cam_smoothing;
 		updatePlayerControl(cam_view);
+		/*
+		 * Log Mark:Test Game::step
+		 * This function handle step process,include singleplay server and client
+		 */
 		step(&dtime);
+		/*
+		 * Log Mark:
+		 * This function process client event,including DAMAGE_EVENT,etc.
+		 */
 		processClientEvents(&cam_view_target);
+		/*
+		 * Log Mark:
+		 * This function process switch Camera and ?update player's position
+		 */
 		updateCamera(draw_times.busy_time, dtime);
 		updateSound(dtime);
 		processPlayerInteraction(dtime, flags.show_hud, flags.show_debug);
@@ -1856,6 +1878,10 @@ bool Game::createClient(const std::string &playername,
 
 	bool could_connect, connect_aborted;
 
+	/*
+	 * Log Mark:Test Game::connectToServer
+	 * As the name suggests
+	 */
 	if (!connectToServer(playername, password, address, port,
 			&could_connect, &connect_aborted))
 		return false;
@@ -1869,6 +1895,10 @@ bool Game::createClient(const std::string &playername,
 		return false;
 	}
 
+	/*
+	 * Log Mark:Test Game::getserverContent 
+	 * As the name suggests
+	 */
 	if (!getServerContent(&connect_aborted)) {
 		if (error_message->empty() && !connect_aborted) {
 			// Should not happen if error messages are set properly
@@ -2079,6 +2109,10 @@ bool Game::connectToServer(const std::string &playername,
 	connect_address.print(&infostream);
 	infostream << std::endl;
 
+	/*
+	 * LogMark: Test Client::connect Operation
+	 * As the name suggests
+	 */
 	client->connect(connect_address,
 		simple_singleplayer_mode || local_server_mode);
 
@@ -3591,6 +3625,10 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 		runData.repeat_rightclick_timer = 0;
 
 	if (playeritem_def.usable && isLeftPressed()) {
+		/*
+		 * Log Mark:Test Client::interact(4,pointed)
+		 * Use Item Operation
+		 */
 		if (getLeftClicked() && (!client->moddingEnabled()
 				|| !client->getScript()->on_item_use(playeritem, pointed)))
 			client->interact(4, pointed);
@@ -3600,13 +3638,25 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 		if (playeritem.name.empty()) {
 			playeritem_toolcap = *hand_def.tool_capabilities;
 		}
+		/*
+		 * Log Mark:Test Game::handlePointingAtNode
+		 * Interact with something like block
+		 */
 		handlePointingAtNode(pointed, playeritem_def, playeritem_toolcap, dtime);
 	} else if (pointed.type == POINTEDTHING_OBJECT) {
+		/*
+		 * Log Mark:Test Game::handlePointingAtObject
+		 * Interact with something list other player
+		 */
 		handlePointingAtObject(pointed, playeritem, player_position, show_debug);
 	} else if (isLeftPressed()) {
 		// When button is held down in air, show continuous animation
 		runData.left_punch = true;
 	} else if (getRightClicked()) {
+		/*
+		 * Log Mark:Test Game::handlePointingAtNothing
+		 * Interact with Nothing
+		 */
 		handlePointingAtNothing(playeritem);
 	}
 
@@ -3731,6 +3781,10 @@ void Game::handlePointingAtNothing(const ItemStack &playerItem)
 	infostream << "Right Clicked in Air" << std::endl;
 	PointedThing fauxPointed;
 	fauxPointed.type = POINTEDTHING_NOTHING;
+	/*
+	 * Log Mark:Client::interact(5,pointed)
+	 * use unkown operation
+	 */
 	client->interact(5, fauxPointed);
 }
 
@@ -3749,6 +3803,10 @@ void Game::handlePointingAtNode(const PointedThing &pointed, const ItemDefinitio
 
 	if (runData.nodig_delay_timer <= 0.0 && isLeftPressed()
 			&& client->checkPrivilege("interact")) {
+		/*
+		 * Log Mark:Test Game::handleDigging
+		 * As the name suggests
+		 */
 		handleDigging(pointed, nodepos, playeritem_toolcap, dtime);
 	}
 
@@ -3801,6 +3859,10 @@ void Game::handlePointingAtNode(const PointedThing &pointed, const ItemDefinitio
 
 			if (placed) {
 				// Report to server
+				/*
+				 * Log Mark:Client::interact(3,pointed)
+				 * place block operation
+				 */
 				client->interact(3, pointed);
 				// Read the sound
 				soundmaker->m_player_rightpunch_sound =
@@ -3814,6 +3876,10 @@ void Game::handlePointingAtNode(const PointedThing &pointed, const ItemDefinitio
 
 				if (playeritem_def.node_placement_prediction == "" ||
 						nodedef_manager->get(map.getNodeNoEx(nodepos)).rightclickable) {
+				/*
+				 * Log Mark:Client::interact(3,pointed)
+				 * place block operation
+				 */
 					client->interact(3, pointed); // Report to server
 				} else {
 					soundmaker->m_player_rightpunch_sound =
@@ -3869,15 +3935,27 @@ void Game::handlePointingAtObject(const PointedThing &pointed, const ItemStack &
 				}
 			}
 
+			/*
+			 * Log Mark:Check all ClientActiveObject
+			 * According name,maybe this function send packet to server
+			 */
 			bool disable_send = runData.selected_object->directReportPunch(
 					dir, &item, runData.time_from_last_punch);
 			runData.time_from_last_punch = 0;
 
+			/*
+			 * Log Mark:Client::interact(0,pointed)
+			 * Start digging operation for object disable interact
+			 */
 			if (!disable_send)
 				client->interact(0, pointed);
 		}
 	} else if (getRightClicked()) {
 		infostream << "Right-clicked object" << std::endl;
+		/*
+		 * Log Mark:Client::interact(0,pointed)
+		 * Start digging operation for object disable interact
+		 */
 		client->interact(3, pointed);  // place
 	}
 }
@@ -3988,6 +4066,10 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 			client->removeNode(nodepos);
 		}
 
+		/*
+		 * Log Mark:Client::interact(2,point)
+		 * digging complete Operation
+		 */
 		client->interact(2, pointed);
 
 		if (m_cache_enable_particles) {
@@ -4134,6 +4216,10 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 		Inventory
 	*/
 
+	/*
+	 * Log Mark:Test Client::selectPlayerItem
+	 * Function will send the information of selected item to server
+	 */
 	if (client->getPlayerItem() != runData.new_playeritem)
 		client->selectPlayerItem(runData.new_playeritem);
 
@@ -4668,6 +4754,11 @@ void the_game(bool *kill,
 
 	try {
 
+		/*
+		 * Log Mark:
+		 * 1.Game::startup is responsible for initializing Clinet
+		 * 2.Game::run process game loop
+		 */
 		if (game.startup(kill, random_input, input, device, map_dir,
 				playername, password, &server_address, port, error_message,
 				reconnect_requested, &chat_backend, gamespec,
