@@ -820,8 +820,8 @@ void Client::Receive()
 	m_con.Receive(&pkt);
 	infostream <<"[Log Mark]:Client::Receive"
 		<< "Command="
-		<<serverCommandFactoryTable[pkt-getCommand()].name
-		<<" PeerId="<<pkt->getPeerId()<<endl;
+		<<serverCommandFactoryTable[pkt.getCommand()].name
+		<<" PeerId="<<pkt.getPeerId()<<std::endl;
 	ProcessData(&pkt);
 }
 
@@ -890,8 +890,8 @@ void Client::Send(NetworkPacket* pkt)
 {
 	infostream <<"[Log Mark]:Client::Send"
 		<< "Command="
-		<<serverCommandFactoryTable[pkt-getCommand()].name
-		<<" PeerId="<<pkt->getPeerId()<<endl;
+		<<serverCommandFactoryTable[pkt->getCommand()].name
+		<<" PeerId="<<pkt->getPeerId()<<std::endl;
 	m_con.Send(PEER_ID_SERVER,
 		serverCommandFactoryTable[pkt->getCommand()].channel,
 		pkt,

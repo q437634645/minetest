@@ -1068,7 +1068,7 @@ void Server::Receive()
 		m_con.Receive(&pkt);
 		peer_id = pkt.getPeerId();
 		infostream << "[Log Mark]:Server::Receive"
-			<<"Command="<<toServerCommandTable[pkt->getCommand()].name<<" PeerId="<<peer_id<<endl;
+			<<"Command="<<toServerCommandTable[pkt.getCommand()].name<<" PeerId="<<peer_id<<std::endl;
 		ProcessData(&pkt);
 	}
 	catch(con::InvalidIncomingDataException &e) {
@@ -1491,8 +1491,8 @@ void Server::Send(NetworkPacket* pkt)
 {
 	infostream <<"[Log Mark]:Server::Send"
 		<< "Command="
-		<<clientCommandFactoryTable[pkt-getCommand()].name
-		<<" PeerId="<<pkt->getPeerId()<<endl;
+		<<clientCommandFactoryTable[pkt->getCommand()].name
+		<<" PeerId="<<pkt->getPeerId()<<std::endl;
 	m_clients.send(pkt->getPeerId(),
 		clientCommandFactoryTable[pkt->getCommand()].channel,
 		pkt,
