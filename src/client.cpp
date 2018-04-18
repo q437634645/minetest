@@ -820,7 +820,7 @@ void Client::Receive()
 	m_con.Receive(&pkt);
 	infostream <<"[Log Mark]:Client::Receive"
 		<< "Command="
-		<<serverCommandFactoryTable[pkt.getCommand()].name
+		<<toClientCommandTable[pkt.getCommand()].name
 		<<" PeerId="<<pkt.getPeerId()<<std::endl;
 	ProcessData(&pkt);
 }
