@@ -42,6 +42,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "database.h"
 #include "config.h"
 #include "porting.h"
+#include "testutil/test.h"
 #if USE_CURSES
 	#include "terminal_chat_console.h"
 #endif
@@ -62,6 +63,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #endif
 
 #define DEBUGFILE "debug.txt"
+#define TESTFILE "Test.txt"
 #define DEFAULT_SERVER_PORT 30000
 
 typedef std::map<std::string, ValueSpec> OptionList;
@@ -444,6 +446,9 @@ static bool init_common(const Settings &cmd_args, int argc, char *argv[])
 		return false;
 
 	init_log_streams(cmd_args);
+
+	std::string test_filename = porting::TESTFILE;
+	g_testutil->init(test_filename);
 
 	// Initialize random seed
 	srand(time(0));

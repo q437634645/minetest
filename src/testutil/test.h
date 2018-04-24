@@ -2,7 +2,9 @@
 #define LOGTEST
 
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <string>
 #include "porting.h"
 
 class TestUtil;
@@ -19,12 +21,16 @@ public:
 		startTime = porting::getTimeMs();
 	}
 	~TestCase(){
+		if(!m_stream.good())
+			return;
 		std::cerr<<"TestCase = "<<(int)type<<"startTime ="<<startTime
 			<<"finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 	void stop(){
+		if(!m_stream.good())
+			return;
 		std::cerr<<"TestCase = "<<(int)type<<"startTime ="<<startTime
-			<<"finishTime = "<<porting::getTimeMs()<<std::endl;
+			<<" finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 private:
 	float startTime;
@@ -46,7 +52,14 @@ public:
 		i->stop();
 		m_testcase.erase(i);
 	}
+	void init(const std::string &filename){
+		m_stream.open(filename.c_str(), std::ios::out);
+		if (!m_stream.good())
+			throw FileNotGoodException("Failed to open test file " +
+				filename + ": " + strerror(errno));
+	}
 private:
+	std::ofstream m_stream;
 	std::vector<TestCase>m_testcase;
 };
 
