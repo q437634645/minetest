@@ -47,6 +47,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "guiscalingfilter.h"
 #include "script/scripting_client.h"
 #include "game.h"
+#include "testutil/test.h"
 
 extern gui::IGUIEnvironment* guienv;
 
@@ -1331,6 +1332,11 @@ void Client::sendPlayerPos()
 			myplayer->last_camera_fov   == camera_fov              &&
 			myplayer->last_wanted_range == wanted_range)
 		return;
+
+	/*
+	 * Log Test: Record Time of call function Client::sendPlayerPos
+	*/
+	g_testutil.CreateTestCase(TCT_PlayerPos);
 
 	myplayer->last_position     = myplayer->getPosition();
 	myplayer->last_speed        = myplayer->getSpeed();

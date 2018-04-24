@@ -34,6 +34,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/serialize.h"
 #include "util/srp.h"
 #include "tileanimation.h"
+#include "testutil/test.h"
 
 void Client::handleCommand_Deprecated(NetworkPacket* pkt)
 {
@@ -469,6 +470,12 @@ void Client::handleCommand_ActiveObjectMessages(NetworkPacket* pkt)
 			string message
 		}
 	*/
+	/*
+	 * Log Test: PlayerPos cause Receive ActiveObjectMessage
+	 */
+	g_testutil.FinishTestCase();
+
+	float PlayerPosEventTimeEndTime = porting::getTimeMs();
 	std::string datastring(pkt->getString(0), pkt->getSize());
 	std::istringstream is(datastring, std::ios_base::binary);
 
