@@ -473,7 +473,7 @@ void Client::handleCommand_ActiveObjectMessages(NetworkPacket* pkt)
 	/*
 	 * Log Test: PlayerPos cause Receive ActiveObjectMessage
 	 */
-	g_testutil->FinishTestCase();
+	//g_testutil->FinishTestCase();
 
 	std::string datastring(pkt->getString(0), pkt->getSize());
 	std::istringstream is(datastring, std::ios_base::binary);

@@ -797,8 +797,8 @@ void Client::ReceiveAll()
 
 		try {
 			/*
-			 * Test Client::Receive
-			 * This function recevie and process a packet
+			 * Log test:
+			 * Recrod the number and time of process packet
 			 */
 			Receive();
 			g_profiler->graphAdd("client_received_packets", 1);
@@ -819,11 +819,19 @@ void Client::Receive()
 	DSTACK(FUNCTION_NAME);
 	NetworkPacket pkt;
 	m_con.Receive(&pkt);
+	/*
 	infostream <<"[Log Mark]:Client::Receive"
 		<< "Command="
 		<<toClientCommandTable[pkt.getCommand()].name
 		<<" PeerId="<<pkt.getPeerId()<<std::endl;
+	*/
+	// PacketNumber ++;
+	// startTime  
+	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
+	g_testutil->CreateTestCase(TCT_PlayerPos);
 	ProcessData(&pkt);
+	g_testUtil->FinishTestCase();
+	// endTime
 }
 
 inline void Client::handleCommand(NetworkPacket* pkt)
@@ -1336,7 +1344,7 @@ void Client::sendPlayerPos()
 	/*
 	 * Log Test: Record Time of call function Client::sendPlayerPos
 	*/
-	g_testutil->CreateTestCase(TCT_PlayerPos);
+	//g_testutil->CreateTestCase(TCT_PlayerPos);
 
 	myplayer->last_position     = myplayer->getPosition();
 	myplayer->last_speed        = myplayer->getSpeed();

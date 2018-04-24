@@ -447,7 +447,7 @@ static bool init_common(const Settings &cmd_args, int argc, char *argv[])
 
 	init_log_streams(cmd_args);
 
-	std::string test_filename = TESTFILE;
+	std::string test_filename = Tporting::path_user + DIR_DELIM + ESTFILE;
 	g_testutil->init(test_filename);
 
 	// Initialize random seed
