@@ -6,7 +6,7 @@
 #include "porting.h"
 
 class TestUtil;
-extern TestUtil g_testutil;
+extern TestUtil *g_testutil;
 
 enum TestCaseType{
 	TCT_PlayerPos,
