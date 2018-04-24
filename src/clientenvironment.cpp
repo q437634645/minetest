@@ -528,6 +528,9 @@ void ClientEnvironment::removeActiveObject(u16 id)
 void ClientEnvironment::processActiveObjectMessage(u16 id, const std::string &data)
 {
 	ClientActiveObject *obj = getActiveObject(id);
+	if(obj->getType() == ACTIVEOBJECT_TYPE_PLAYER){
+		infostream<<"PlayerActiveObjectMessage"<<std::endl;
+	}
 	if (obj == NULL) {
 		infostream << "ClientEnvironment::processActiveObjectMessage():"
 			<< " got message for id=" << id << ", which doesn't exist."
