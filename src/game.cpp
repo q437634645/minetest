@@ -60,6 +60,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "irrlicht_changes/static_text.h"
 #include "version.h"
 #include "script/scripting_client.h"
+#include "testutil/test.h"
 
 #if USE_SOUND
 	#include "sound_openal.h"
@@ -67,6 +68,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 extern Settings *g_settings;
 extern Profiler *g_profiler;
+extern TestUtil *g_testutil;
 
 /*
 	Text input system
