@@ -5,8 +5,8 @@
 #include <iostream>
 #include <vector>
 
-class TestUtil;
 class TestCase;
+class TestUtil;
 extern TestUtil g_testutil;
 
 enum TestCaseType{
@@ -23,7 +23,7 @@ public:
 		m_testcase.insert(TestCase(type));
 	}
 	void FinishTestCase(){
-		std::vector<TestCase>::const_iterator i = m.begin();
+		std::vector<TestCase>::const_iterator i = m_testcase.begin();
 		i->stop();
 		m_testcase.erase(i);
 	}
