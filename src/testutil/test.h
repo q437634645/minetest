@@ -1,9 +1,9 @@
 #ifndef LOGTEST
 #define LOGTEST
 
-#include "porting.h"
 #include <iostream>
 #include <vector>
+#include "porting.h"
 
 class TestUtil;
 extern TestUtil g_testutil;

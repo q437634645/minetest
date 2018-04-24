@@ -1,3 +1,4 @@
 #include "test.h"
 
-TestUtil g_testutil;
+static TestUtil main_testutil;
+TestUtil* g_testutil = &main_testutil;

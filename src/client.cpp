@@ -1336,7 +1336,7 @@ void Client::sendPlayerPos()
 	/*
 	 * Log Test: Record Time of call function Client::sendPlayerPos
 	*/
-	g_testutil.CreateTestCase(TCT_PlayerPos);
+	g_testutil->CreateTestCase(TCT_PlayerPos);
 
 	myplayer->last_position     = myplayer->getPosition();
 	myplayer->last_speed        = myplayer->getSpeed();
