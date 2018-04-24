@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cerrno>
 #include "porting.h"
 
 class TestUtil;
@@ -23,13 +24,13 @@ public:
 	~TestCase(){
 		if(!m_stream.good())
 			return;
-		std::cerr<<"TestCase = "<<(int)type<<"startTime ="<<startTime
+		m_steam<<"TestCase = "<<(int)type<<"startTime ="<<startTime
 			<<"finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 	void stop(){
 		if(!m_stream.good())
 			return;
-		std::cerr<<"TestCase = "<<(int)type<<"startTime ="<<startTime
+		m_stream<<"TestCase = "<<(int)type<<"startTime ="<<startTime
 			<<" finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 private:
