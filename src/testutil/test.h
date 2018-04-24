@@ -27,7 +27,7 @@ public:
 	~TestCase(){
 		if(!m_stream.good())
 			return;
-		m_steam<<"TestCase = "<<(int)type<<"startTime ="<<startTime
+		m_stream<<"TestCase = "<<(int)type<<"startTime ="<<startTime
 			<<"finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 	void stop(){
@@ -48,7 +48,7 @@ public:
 		m_testcase.clear();
 	}
 	void CreateTestCase(TestCaseType type){
-		m_testcase.push_back(TestCase(type), m_stream);
+		m_testcase.push_back(TestCase(typem m_stream));
 	}
 	void FinishTestCase(){
 		std::vector<TestCase>::iterator i = m_testcase.begin();
