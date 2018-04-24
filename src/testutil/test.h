@@ -37,7 +37,7 @@ public:
 		m_testcase.clear();
 	}
 	void CreateTestCase(TestCaseType type){
-		m_testcase.insert(TestCase(type));
+		m_testcase.push_back(TestCase(type));
 	}
 	void FinishTestCase(){
 		std::vector<TestCase>::iterator i = m_testcase.begin();
