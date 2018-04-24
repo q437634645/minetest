@@ -18,7 +18,10 @@ enum TestCaseType{
 
 class TestCase{
 public:
-	TestCase(TestCaseType tct):type(tct){
+	TestCase(TestCaseType tct,std::ostream &stream):
+		m_stream(stream),
+		type(tct)
+	{
 		startTime = porting::getTimeMs();
 	}
 	~TestCase(){
@@ -34,6 +37,7 @@ public:
 			<<" finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 private:
+	std::ostream &m_stream;
 	float startTime;
 	TestCaseType type;
 };
@@ -44,7 +48,7 @@ public:
 		m_testcase.clear();
 	}
 	void CreateTestCase(TestCaseType type){
-		m_testcase.push_back(TestCase(type));
+		m_testcase.push_back(TestCase(type), m_stream);
 	}
 	void FinishTestCase(){
 		std::vector<TestCase>::iterator i = m_testcase.begin();
