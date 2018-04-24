@@ -447,7 +447,11 @@ static bool init_common(const Settings &cmd_args, int argc, char *argv[])
 
 	init_log_streams(cmd_args);
 
-	std::string test_filename = Tporting::path_user + DIR_DELIM + ESTFILE;
+#ifdef __ANDROID__
+	std::string test_filename = porting::path_user + DIR_DELIM + TESTFILE;
+#else
+	std::string test_filename = TESTFILE;
+#endif
 	g_testutil->init(test_filename);
 
 	// Initialize random seed
