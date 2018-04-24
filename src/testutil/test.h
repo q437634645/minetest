@@ -40,7 +40,7 @@ public:
 		m_testcase.insert(TestCase(type));
 	}
 	void FinishTestCase(){
-		std::vector<TestCase>::const_iterator i = m_testcase.begin();
+		std::vector<TestCase>::iterator i = m_testcase.begin();
 		i->stop();
 		m_testcase.erase(i);
 	}
