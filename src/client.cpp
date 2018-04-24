@@ -830,7 +830,7 @@ void Client::Receive()
 	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
 	g_testutil->CreateTestCase(TCT_PlayerPos);
 	ProcessData(&pkt);
-	g_testUtil->FinishTestCase();
+	g_testutil->FinishTestCase();
 	// endTime
 }
 
