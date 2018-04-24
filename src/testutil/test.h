@@ -41,6 +41,8 @@ public:
 	}
 	void FinishTestCase(){
 		std::vector<TestCase>::iterator i = m_testcase.begin();
+		if( i == m_testcase.end())
+			return;
 		i->stop();
 		m_testcase.erase(i);
 	}
