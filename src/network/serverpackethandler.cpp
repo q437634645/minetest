@@ -821,6 +821,14 @@ void Server::process_PlayerPos(RemotePlayer *player, PlayerSAO *playersao,
 
 void Server::handleCommand_PlayerPos(NetworkPacket* pkt)
 {
+	/*
+	 *  Log Tips: This function handle PlayerPos packet,
+	 *  and cause PlayerPos update,m_player->setDirty(true) 
+	 */
+	/*
+	 * Log Test: record time of handle PlayerPos packet
+	 */
+	// TestCasePlayerPosHandlePacketTimer = GetTime():
 	RemotePlayer *player = m_env->getPlayer(pkt->getPeerId());
 	if (player == NULL) {
 		errorstream << "Server::ProcessData(): Canceling: "
@@ -847,6 +855,10 @@ void Server::handleCommand_PlayerPos(NetworkPacket* pkt)
 	}
 
 	process_PlayerPos(player, playersao, pkt);
+	/*
+	 * Log Test: Record of time of the finishing of handling PlayerPos packet
+	 */
+	// TestCasePlayerHandlePacketTime = GetTime9) - TestCasePlayerPosHandlePacketTimer;
 }
 
 void Server::handleCommand_DeletedBlocks(NetworkPacket* pkt)

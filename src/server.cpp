@@ -1067,8 +1067,10 @@ void Server::Receive()
 		NetworkPacket pkt;
 		m_con.Receive(&pkt);
 		peer_id = pkt.getPeerId();
+
 		infostream << "[Log Mark]:Server::Receive"
 			<<"Command="<<toServerCommandTable[pkt.getCommand()].name<<" PeerId="<<peer_id<<std::endl;
+
 		ProcessData(&pkt);
 	}
 	catch(con::InvalidIncomingDataException &e) {
@@ -2049,6 +2051,11 @@ void Server::SendActiveObjectMessages(u16 peer_id, const std::string &datas, boo
 			datas.size(), peer_id);
 
 	pkt.putRawString(datas.c_str(), datas.size());
+
+	/*
+	 * Log Test: Handle PlayerPos must cause SendActiveObjectMessages
+	 */
+	// TimeCasePlayerPosSendActiveObjectMessage = GetTime();
 
 	m_clients.send(pkt.getPeerId(),
 			reliable ? clientCommandFactoryTable[pkt.getCommand()].channel : 1,

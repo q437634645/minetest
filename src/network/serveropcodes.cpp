@@ -59,11 +59,11 @@ const ToServerCommandHandler toServerCommandTable[TOSERVER_NUM_MSG_TYPES] =
 	null_command_handler, // 0x20
 	null_command_handler, // 0x21
 	null_command_handler, // 0x22
-	{ "TOSERVER_PLAYERPOS",                TOSERVER_STATE_INGAME, &Server::handleCommand_PlayerPos }, // 0x23
+	{ "TOSERVER_PLAYERPOS",                TOSERVER_STATE_INGAME, &Server::handleCommand_PlayerPos }, // 0x23	/*Log Mark:Test a series of operation*/
 	{ "TOSERVER_GOTBLOCKS",                TOSERVER_STATE_STARTUP, &Server::handleCommand_GotBlocks }, // 0x24
 	{ "TOSERVER_DELETEDBLOCKS",            TOSERVER_STATE_INGAME, &Server::handleCommand_DeletedBlocks }, // 0x25
 	null_command_handler, // 0x26
-	{ "TOSERVER_CLICK_OBJECT",             TOSERVER_STATE_INGAME, &Server::handleCommand_Deprecated }, // 0x27
+	{ "TOSERVER_CLICK_OBJECT",             TOSERVER_STATE_INGAME, &Server::handleCommand_Deprecated }, // 0x27	/*Log Mark:Test a series of operation*/
 	{ "TOSERVER_GROUND_ACTION",            TOSERVER_STATE_INGAME, &Server::handleCommand_Deprecated }, // 0x28
 	{ "TOSERVER_RELEASE",                  TOSERVER_STATE_INGAME, &Server::handleCommand_Deprecated }, // 0x29
 	null_command_handler, // 0x2a
