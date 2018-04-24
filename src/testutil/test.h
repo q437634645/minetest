@@ -19,11 +19,11 @@ public:
 		startTime = porting::getTimeMs();
 	}
 	~TestCase(){
-		std::cout<<"TestCase = "<<(int)type<<"startTime ="<<startTime
+		std::cerr<<"TestCase = "<<(int)type<<"startTime ="<<startTime
 			<<"finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 	void stop(){
-		std::cout<<"TestCase = "<<(int)type<<"startTime ="<<startTime
+		std::cerr<<"TestCase = "<<(int)type<<"startTime ="<<startTime
 			<<"finishTime = "<<porting::getTimeMs()<<std::endl;
 	}
 private:
