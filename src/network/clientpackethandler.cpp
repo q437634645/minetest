@@ -475,7 +475,6 @@ void Client::handleCommand_ActiveObjectMessages(NetworkPacket* pkt)
 	 */
 	g_testutil.FinishTestCase();
 
-	float PlayerPosEventTimeEndTime = porting::getTimeMs();
 	std::string datastring(pkt->getString(0), pkt->getSize());
 	std::istringstream is(datastring, std::ios_base::binary);
 

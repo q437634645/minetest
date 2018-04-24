@@ -1,3 +1,3 @@
 #include "test.h"
 
-static TestUtil g_testutil;
+TestUtil g_testutil;
