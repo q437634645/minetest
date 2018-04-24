@@ -5,30 +5,12 @@
 #include <iostream>
 #include <vector>
 
-class TestCase;
 class TestUtil;
 extern TestUtil g_testutil;
 
 enum TestCaseType{
 	TCT_PlayerPos,
 	TCT_MAX,
-};
-
-class TestUtil{
-public:
-	TestUtil(){
-		m_testcase.clear();
-	}
-	void CreateTestCase(TestCaseType type){
-		m_testcase.insert(TestCase(type));
-	}
-	void FinishTestCase(){
-		std::vector<TestCase>::const_iterator i = m_testcase.begin();
-		i->stop();
-		m_testcase.erase(i);
-	}
-private:
-	std::vector<TestCase>m_testcase;
 };
 
 class TestCase{
@@ -48,5 +30,23 @@ private:
 	float startTime;
 	TestCaseType type;
 };
+
+class TestUtil{
+public:
+	TestUtil(){
+		m_testcase.clear();
+	}
+	void CreateTestCase(TestCaseType type){
+		m_testcase.insert(TestCase(type));
+	}
+	void FinishTestCase(){
+		std::vector<TestCase>::const_iterator i = m_testcase.begin();
+		i->stop();
+		m_testcase.erase(i);
+	}
+private:
+	std::vector<TestCase>m_testcase;
+};
+
 
 #endif
