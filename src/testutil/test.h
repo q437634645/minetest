@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <cerrno>
+#include "exceptions.h"
 #include "porting.h"
 
 class TestUtil;
