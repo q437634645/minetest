@@ -28,8 +28,8 @@ public:
 		std::ostringstream os(std::ios_base::binary);
 		os<<"TestCase = "<<(int)type<<" "
 			"startTime = "<<startTime<<" "
-			"endTime = "<<getTimeMs()<<std::endl;
-		return os.c_str();
+			"endTime = "<<porting::getTimeMs()<<std::endl;
+		return os.str();
 	}
 private:
 	u64 startTime;
