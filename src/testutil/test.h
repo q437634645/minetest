@@ -21,15 +21,15 @@ extern TestUtil *g_testutil;
 
 class TestUtil{
 public:
-	TestUtil():
-		active(false),finished(false)
+	TestUtil()
+		:active(false),finished(false)
 	{
 	}
 	void SetActive(bool active){
 		m_active = active;
 		m_active_time = porting::getTimeMs();
 		filename = dirname + DIR_DELIM + getTimestamp() + ".txt";
-		m_stream.open(filename,std::ios::out);
+		m_stream.open(filename.c_str(),std::ios::out);
 		if(!m_stream.good()){
 			throw FileNotGoodException("Failed to open test file " +
 				filename + ": " + strerror(errno));
