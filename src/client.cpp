@@ -298,7 +298,7 @@ void Client::step(float dtime)
 	ReceiveAll();
 	g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
 	g_testutil->Avg("RTT",getRTT(),1.0f);
-	g_testutil->Output(porting::getTimeMs());
+	g_testutil->Output();
 
 	/*
 		Packet counter
