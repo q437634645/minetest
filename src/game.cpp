@@ -2909,7 +2909,7 @@ void Game::toggleDebug()
 			m_statustext = L"Debug info and profiler graph hidden";
 		}
 	}
-	if(g_testutil.isActive()){
+	if(g_testutil->isActive()){
 		g_testutil->Finish();
 		m_statustext += L" Test Finish";
 	}
