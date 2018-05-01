@@ -148,7 +148,7 @@ public:
 	 *
 	 */
 	u32 size(){
-		MuteAutoLock lock(m_mutex);
+		MutexAutoLock lock(m_mutex);
 		return m_queue.size();
 	}	
 
