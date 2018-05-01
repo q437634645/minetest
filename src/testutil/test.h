@@ -22,7 +22,7 @@ extern TestUtil *g_testutil;
 class TestUtil{
 public:
 	TestUtil()
-		:active(false),finished(false)
+		:m_active(false),m_finished(false)
 	{
 	}
 	void SetActive(bool active){
@@ -68,7 +68,7 @@ public:
 		}
 	}
 	void Output(){
-		if(porting::getTimeMs() - m_active_time < 100 || finished)return;
+		if(porting::getTimeMs() - m_active_time < 100 || m_finished)return;
 		if(!m_active){
 			return;
 		}
@@ -89,8 +89,8 @@ public:
 		m_count.clear();
 		m_average.clear();
 	}
-	void ~TestUtil(){
-		finished = true;
+	~TestUtil(){
+		m_finished = true;
 		Output();
 	}
 private:
@@ -101,7 +101,7 @@ private:
 	std::string filename;
 	bool m_active;
 	u64 m_active_time;
-	bool finished;
+	bool m_finished;
 };
 
 
