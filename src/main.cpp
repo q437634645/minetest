@@ -452,7 +452,7 @@ static bool init_common(const Settings &cmd_args, int argc, char *argv[])
 #else
 	std::string test_filename = TESTFILE;
 #endif
-	g_testutil->init(test_filename);
+	//g_testutil->init(test_filename);
 
 	// Initialize random seed
 	srand(time(0));

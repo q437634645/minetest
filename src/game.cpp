@@ -2887,7 +2887,6 @@ void Game::toggleDebug()
 	// 2x toggle: Debug text with profiler graph
 	// 3x toggle: Debug text and wireframe
 	if (!flags.show_debug) {
-		g_testutil.SetActive(true);
 		flags.show_debug = true;
 		flags.show_profiler_graph = false;
 		draw_control->show_wireframe = false;
@@ -2900,7 +2899,6 @@ void Game::toggleDebug()
 		draw_control->show_wireframe = true;
 		m_statustext = L"Wireframe shown";
 	} else {
-		g_testutil.SetActive(false);
 		flags.show_debug = false;
 		flags.show_profiler_graph = false;
 		draw_control->show_wireframe = false;
