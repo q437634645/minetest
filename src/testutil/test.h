@@ -21,7 +21,6 @@ public:
 	TestUtil():
 		active(false)
 	{
-		m_testcase.clear();
 	}
 	void SetActive(bool _active){
 		active = _active;
@@ -39,14 +38,14 @@ public:
 		std::map<std::string,int>::iterator i;
 		i=m_count.find(name);
 		if(i==m_count.end())
-			m_count=value;
+			m_count[name]=value;
 		else i->second+=value;
 	}
 	void Avg(const std::string &name, float numerator,float denominator){
 		std::map<std::string,std::pair<float,float> >::iterator i;
 		i=m_average.find(name);
 		if(i==m_average.end()){
-			m_count=make_pair(numerator,denominator);
+			m_count=std::make_pair(numerator,denominator);
 		}
 		else {
 			std::pair<float,float>&p=i->second;
@@ -62,9 +61,9 @@ public:
 		}
 		std::map<std::string,std::pair<float,float> >::iterator j;
 		for(j=m_average.begin();j!=m_average.end();j++){
-			float value=i->second.first;
-			if(i->second.second>1e-6)value = i->second.first/i->second.second;
-			m_stream<<i->first<<" average:"<<value<<std::endl;
+			float value=j->second.first;
+			if(j->second.second>1e-6)value /= j->second.second;
+			m_stream<<j->first<<" average:"<<value<<std::endl;
 		}
 	}
 private:
@@ -82,7 +81,7 @@ enum TestCaseType{
 
 class TestCase{
 public:
-	TestCase(TestUtil *testutil,const string& name,TestCaseType m_type):
+	TestCase(TestUtil *testutil,const std::string& name,TestCaseType m_type):
 		m_testutil(testutil),m_name(name)
 	{
 		m_starttime = porting::getTimeMs();
