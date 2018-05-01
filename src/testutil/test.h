@@ -35,7 +35,7 @@ public:
 		else {
 			m_active_time = porting::getTimeMs();
 			filename = dirname + DIR_DELIM + getTimestamp() + ".txt";
-			if(m_stream.isopen())m_stream.close();
+			if(m_stream.is_open())m_stream.close();
 			m_stream.open(filename.c_str(),std::ios::out);
 			if(!m_stream.good()){
 				throw FileNotGoodException("Failed to open test file " +
