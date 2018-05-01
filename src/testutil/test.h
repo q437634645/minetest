@@ -45,7 +45,7 @@ public:
 		std::map<std::string,std::pair<float,float> >::iterator i;
 		i=m_average.find(name);
 		if(i==m_average.end()){
-			m_count[name]=std::make_pair(numerator,denominator);
+			m_average[name]=std::make_pair(numerator,denominator);
 		}
 		else {
 			std::pair<float,float>&p=i->second;
