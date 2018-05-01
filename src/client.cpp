@@ -830,10 +830,9 @@ void Client::Receive()
 	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
 	g_testutil->CreateTestCase(TCT_PlayerPos);
 	ToClientCommand command = (ToClientCommand) pkt->getCommand();
-	std::cerr<<"command:"<<(int)command<<"connect size:"<<m_con.size()<<std::endl;
+	std::cerr<<"command:"<<(int)command<<"connect size:"<<m_con.GetEventQueueSize()<<std::endl;
 	ProcessData(&pkt);
 	g_testutil->FinishTestCase();
-	// endTime
 }
 
 inline void Client::handleCommand(NetworkPacket* pkt)

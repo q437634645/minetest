@@ -143,6 +143,14 @@ public:
 		m_queue.push_back(t);
 		m_signal.post();
 	}
+	
+	/*Log
+	 *
+	 */
+	u32 size(){
+		MuteAutoLock lock(m_mutex);
+		return m_queue.size();
+	}	
 
 	/* this version of pop_front returns a empty element of T on timeout.
 	* Make sure default constructor of T creates a recognizable "empty" element
