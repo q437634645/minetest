@@ -35,6 +35,7 @@ public:
 		else {
 			m_active_time = porting::getTimeMs();
 			filename = dirname + DIR_DELIM + getTimestamp() + ".txt";
+			if(m_stream.isopen())m_stream.close();
 			m_stream.open(filename.c_str(),std::ios::out);
 			if(!m_stream.good()){
 				throw FileNotGoodException("Failed to open test file " +
@@ -66,6 +67,7 @@ public:
 		m_stream<<str<<std::endl;
 	}
 	void Count(const std::string &name, int value=1){
+		if(!m_active)return;
 		std::map<std::string,int>::iterator i;
 		i=m_count.find(name);
 		if(i==m_count.end())
@@ -73,6 +75,7 @@ public:
 		else i->second+=value;
 	}
 	void Avg(const std::string &name, float numerator,float denominator){
+		if(!m_active)return;
 		std::map<std::string,std::pair<float,float> >::iterator i;
 		i=m_average.find(name);
 		if(i==m_average.end()){
