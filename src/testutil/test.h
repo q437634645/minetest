@@ -45,7 +45,7 @@ public:
 		std::map<std::string,std::pair<float,float> >::iterator i;
 		i=m_average.find(name);
 		if(i==m_average.end()){
-			m_count=std::make_pair(numerator,denominator);
+			m_count[name]=std::make_pair(numerator,denominator);
 		}
 		else {
 			std::pair<float,float>&p=i->second;
@@ -81,8 +81,8 @@ enum TestCaseType{
 
 class TestCase{
 public:
-	TestCase(TestUtil *testutil,const std::string& name,TestCaseType m_type):
-		m_testutil(testutil),m_name(name)
+	TestCase(TestUtil *testutil,const std::string& name,TestCaseType m_type)
+		:m_testutil(testutil),m_name(name)
 	{
 		m_starttime = porting::getTimeMs();
 	}
