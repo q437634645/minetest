@@ -1024,6 +1024,10 @@ public:
 	const u32 GetProtocolID() const { return m_protocol_id; };
 	const std::string getDesc();
 	void DisconnectPeer(u16 peer_id);
+	/*
+	 * Log Code
+	 */
+	u32 GetPeerNum(){return m_peer_ids.size();}
 	u32 GetEventQueueSize(){return m_event_queue.size();}
 
 protected:

@@ -296,6 +296,9 @@ void Client::step(float dtime)
 	 * Function handle received packet in a limited time
 	 */
 	ReceiveAll();
+	g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
+	g_testutil->Avg("RTT",getRTT(),1.0f);
+	g_testutil->Output(proting::getTimeMs());
 
 	/*
 		Packet counter
@@ -829,9 +832,12 @@ void Client::Receive()
 	// startTime  
 	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
 	//g_testutil->CreateTestCase(TCT_PlayerPos);
-	//ToClientCommand command = (ToClientCommand)pkt.getCommand();
-	std::cerr<<"command:"<<toClientCommandTable[command].name<<" queue size:"<<m_con.GetEventQueueSize()<<std::endl;
-	ProcessData(&pkt);
+	{
+		std::string commandname = toClientCommandTable[pkt->getCommand()].name;
+		g_testutil->Count(commandname);
+		TestCase testcase(g_testutil,commandname,TCT_AVG);
+		ProcessData(&pkt);
+	}
 	//g_testutil->FinishTestCase();
 }
 
@@ -898,10 +904,12 @@ void Client::ProcessData(NetworkPacket *pkt)
 
 void Client::Send(NetworkPacket* pkt)
 {
+	/*
 	infostream <<"[Log Mark]:Client::Send"
 		<< "Command="
 		<<serverCommandFactoryTable[pkt->getCommand()].name
 		<<" PeerId="<<pkt->getPeerId()<<std::endl;
+		*/
 	m_con.Send(PEER_ID_SERVER,
 		serverCommandFactoryTable[pkt->getCommand()].channel,
 		pkt,

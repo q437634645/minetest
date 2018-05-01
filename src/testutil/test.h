@@ -53,7 +53,7 @@ public:
 			p.second+=denominator;
 		}
 	}
-	void Output(float curtime){
+	void Output(u64 curtime){
 		if(!m_stream.good())return;
 		std::map<std::string,int>::iterator i;
 		for(i=m_count.begin();i!=m_count.end();i++){

@@ -61,6 +61,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/sha1.h"
 #include "util/hex.h"
 #include "database.h"
+#include "testutil/test.h"
 
 class ClientNotFoundException : public BaseException
 {
@@ -99,6 +100,9 @@ void *ServerThread::run()
 			m_server->AsyncRunStep();
 
 			m_server->Receive();
+			g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
+			g_testutil->Count("player count:",m_con.GetPeerNum());
+			g_testutil->Output(proting::getTimeMs());
 
 		} catch (con::NoIncomingDataException &e) {
 		} catch (con::PeerNotFoundException &e) {
@@ -1068,10 +1072,16 @@ void Server::Receive()
 		m_con.Receive(&pkt);
 		peer_id = pkt.getPeerId();
 
+		/*
 		infostream << "[Log Mark]:Server::Receive"
 			<<"Command="<<toServerCommandTable[pkt.getCommand()].name<<" PeerId="<<peer_id<<std::endl;
-
-		ProcessData(&pkt);
+		*/
+		{
+			std::string commandname = toServerCommandTable[pkg.getCommand()].name;
+			g_testutil->Count(commandname);
+			TestCase testcase(g_testutil,commandname,TCT_AVG);
+			ProcessData(&pkt);
+		}
 	}
 	catch(con::InvalidIncomingDataException &e) {
 		infostream<<"Server::Receive(): "
@@ -1491,10 +1501,12 @@ void Server::printToConsoleOnly(const std::string &text)
 
 void Server::Send(NetworkPacket* pkt)
 {
+	/*
 	infostream <<"[Log Mark]:Server::Send"
 		<< "Command="
 		<<clientCommandFactoryTable[pkt->getCommand()].name
 		<<" PeerId="<<pkt->getPeerId()<<std::endl;
+		*/
 	m_clients.send(pkt->getPeerId(),
 		clientCommandFactoryTable[pkt->getCommand()].channel,
 		pkt,

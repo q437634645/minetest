@@ -144,8 +144,8 @@ public:
 		m_signal.post();
 	}
 	
-	/*Log
-	 *
+	/*
+	 * Log Code
 	 */
 	u32 size(){
 		MutexAutoLock lock(m_mutex);
