@@ -26,14 +26,31 @@ public:
 	{
 	}
 	void SetActive(bool active){
-		m_active = active;
-		m_active_time = porting::getTimeMs();
-		filename = dirname + DIR_DELIM + getTimestamp() + ".txt";
-		m_stream.open(filename.c_str(),std::ios::out);
-		if(!m_stream.good()){
-			throw FileNotGoodException("Failed to open test file " +
-				filename + ": " + strerror(errno));
+		if(active == m_active)return;
+		if(m_active){
+			m_finished = true;
+			Output();
+			m_active = false;
 		}
+		else {
+			m_active_time = porting::getTimeMs();
+			filename = dirname + DIR_DELIM + getTimestamp() + ".txt";
+			m_stream.open(filename.c_str(),std::ios::out);
+			if(!m_stream.good()){
+				throw FileNotGoodException("Failed to open test file " +
+					filename + ": " + strerror(errno));
+			}
+			m_active = true;
+		}
+	}
+	void Begin(){
+		SetActive(true);
+	}
+	void Finish(){
+		SetActive(false);
+	}
+	bool isActive(){
+		return m_active;
 	}
 	void init(const std::string &dirname){
 		this->dirname = dirname;
@@ -85,13 +102,11 @@ public:
 		Clear();
 	}
 	void Clear(){
-		m_active = false;
 		m_count.clear();
 		m_average.clear();
 	}
 	~TestUtil(){
-		m_finished = true;
-		Output();
+		Finish();
 	}
 private:
 	std::ofstream m_stream;

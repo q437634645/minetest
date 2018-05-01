@@ -2909,6 +2909,14 @@ void Game::toggleDebug()
 			m_statustext = L"Debug info and profiler graph hidden";
 		}
 	}
+	if(g_testutil.isActive()){
+		g_testutil->Finish();
+		m_statustext += L" Test Finish";
+	}
+	else {
+		g_testutil->Begin();
+		m_statustext += L" Test Begin";
+	}
 	runData.statustext_time = 0;
 }
 
