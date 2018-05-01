@@ -100,9 +100,6 @@ void *ServerThread::run()
 			m_server->AsyncRunStep();
 
 			m_server->Receive();
-			g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
-			g_testutil->Count("player count:",m_con.GetPeerNum());
-			g_testutil->Output(porting::getTimeMs());
 
 		} catch (con::NoIncomingDataException &e) {
 		} catch (con::PeerNotFoundException &e) {
@@ -486,6 +483,12 @@ void Server::AsyncRunStep(bool initial_step)
 	if((dtime < 0.001) && (initial_step == false))
 		return;
 
+	/*
+	 * Log Code
+	 */
+	g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
+	g_testutil->Count("player count:",m_con.GetPeerNum());
+	g_testutil->Output(porting::getTimeMs());
 	g_profiler->add("Server::AsyncRunStep with dtime (num)", 1);
 
 	//infostream<<"Server steps "<<dtime<<std::endl;
@@ -1077,7 +1080,7 @@ void Server::Receive()
 			<<"Command="<<toServerCommandTable[pkt.getCommand()].name<<" PeerId="<<peer_id<<std::endl;
 		*/
 		{
-			std::string commandname = toServerCommandTable[pkg.getCommand()].name;
+			std::string commandname = toServerCommandTable[pkt.getCommand()].name;
 			g_testutil->Count(commandname);
 			TestCase testcase(g_testutil,commandname,TCT_AVG);
 			ProcessData(&pkt);
