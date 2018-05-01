@@ -11,25 +11,39 @@
 #include <utility>
 #include "exceptions.h"
 #include "porting.h"
+#include "gettime.h"
+#include "filesys.h"
 
 class TestUtil;
 extern TestUtil *g_testutil;
 
+#define TESTFILE "Test"
 
 class TestUtil{
 public:
 	TestUtil():
-		active(false)
+		active(false),finished(false)
 	{
 	}
-	void SetActive(bool _active){
-		active = _active;
+	void SetActive(bool active){
+		m_active = active;
+		m_active_time = porting::getTimeMs();
+		filename = dirname + DIR_DELIM + getTimestamp() + ".txt";
+		m_stream.open(filename,std::ios::out);
+		if(!m_stream.good()){
+			throw FileNotGoodException("Failed to open test file " +
+				filename + ": " + strerror(errno));
+		}
 	}
-	void init(const std::string &filename){
+	void init(const std::string &dirname){
+		this->dirname = dirname;
+		/*
+		if(m_stream.isopen())m_stream.close();
 		m_stream.open(filename.c_str(), std::ios::out);
 		if (!m_stream.good())
 			throw FileNotGoodException("Failed to open test file " +
 				filename + ": " + strerror(errno));
+		*/
 	}
 	void OutputString(const std::string &str){
 		m_stream<<str<<std::endl;
@@ -53,8 +67,11 @@ public:
 			p.second+=denominator;
 		}
 	}
-	void Output(u64 curtime){
-		if(!m_stream.good())return;
+	void Output(){
+		if(porting::getTimeMs() - m_active_time < 100 || finished)return;
+		if(!m_active){
+			return;
+		}
 		std::map<std::string,int>::iterator i;
 		for(i=m_count.begin();i!=m_count.end();i++){
 			m_stream<<i->first<<" count:"<<i->second<<std::endl;
@@ -65,12 +82,26 @@ public:
 			if(j->second.second>1e-6)value /= j->second.second;
 			m_stream<<j->first<<" average:"<<value<<std::endl;
 		}
+		Clear();
+	}
+	void Clear(){
+		m_active = false;
+		m_count.clear();
+		m_average.clear();
+	}
+	void ~TestUtil(){
+		finished = true;
+		Output();
 	}
 private:
-	bool active;
 	std::ofstream m_stream;
 	std::map<std::string,int>m_count;
 	std::map<std::string,std::pair<float,float> >m_average;
+	std::string dirname;
+	std::string filename;
+	bool m_active;
+	u64 m_active_time;
+	bool finished;
 };
 
 

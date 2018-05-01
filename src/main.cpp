@@ -63,6 +63,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #endif
 
 #define DEBUGFILE "debug.txt"
+#define TESTDIR "TestData"
 #define TESTFILE "Test.txt"
 #define DEFAULT_SERVER_PORT 30000
 
@@ -448,11 +449,14 @@ static bool init_common(const Settings &cmd_args, int argc, char *argv[])
 	init_log_streams(cmd_args);
 
 #ifdef __ANDROID__
-	std::string test_filename = porting::path_user + DIR_DELIM + TESTFILE;
+	std::string test_dirname = porting::path_user + DIR_DELIM + TESTDIR;
 #else
-	std::string test_filename = TESTFILE;
+	std::string test_dirname = TESTDIR;
 #endif
-	g_testutil->init(test_filename);
+	if(!fs::PathExists(test_dirname)){
+		bool success = fs::CreateDir(test_dirname);
+	}
+	g_testutil->init(test_dirname);
 
 	// Initialize random seed
 	srand(time(0));
