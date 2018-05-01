@@ -81,8 +81,8 @@ enum TestCaseType{
 
 class TestCase{
 public:
-	TestCase(TestUtil *testutil,const std::string& name,TestCaseType m_type)
-		:m_testutil(testutil),m_name(name)
+	TestCase(TestUtil *testutil,const std::string& name,TestCaseType type)
+		:m_testutil(testutil),m_name(name),m_type(type)
 	{
 		m_starttime = porting::getTimeMs();
 	}
