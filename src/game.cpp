@@ -240,6 +240,7 @@ void update_profiler_gui(gui::IGUIStaticText *guitext_profiler, FontEngine *fe,
 		std::ostringstream os(std::ios_base::binary);
 		g_profiler->printPage(os, show_profiler, show_profiler_max);
 		std::wstring text = utf8_to_wide(os.str());
+		g_testutil->OutputString(text);
 		setStaticText(guitext_profiler, text.c_str());
 		guitext_profiler->setVisible(true);
 

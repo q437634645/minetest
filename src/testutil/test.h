@@ -71,6 +71,9 @@ public:
 			throw FileNotGoodException("Failed to open test file " +
 				filename + ": " + strerror(errno));
 	}
+	void OutputString(const std::string &str){
+		m_stream<<str<<std::endl;
+	}
 private:
 	bool active;
 	std::ofstream m_stream;
