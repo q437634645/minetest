@@ -829,8 +829,8 @@ void Client::Receive()
 	// startTime  
 	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
 	//g_testutil->CreateTestCase(TCT_PlayerPos);
-	ToClientCommand command = (ToClientCommand)pkt.getCommand();
-	std::cerr<<"command:"<<(int)command<<"connect size:"<<m_con.GetEventQueueSize()<<std::endl;
+	//ToClientCommand command = (ToClientCommand)pkt.getCommand();
+	std::cerr<<"command:"<<toClientCommandTable[command].name<<" queue size:"<<m_con.GetEventQueueSize()<<std::endl;
 	ProcessData(&pkt);
 	//g_testutil->FinishTestCase();
 }

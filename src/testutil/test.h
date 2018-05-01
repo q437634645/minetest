@@ -99,10 +99,10 @@ public:
 		}
 	}
 private:
-	std::string m_name;
-	u64 m_starttime;
-	TestCaseType m_type;
 	TestUtil *m_testutil;
+	std::string m_name;
+	TestCaseType m_type;
+	u64 m_starttime;
 };
 
 #endif
