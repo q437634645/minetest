@@ -298,7 +298,7 @@ void Client::step(float dtime)
 	ReceiveAll();
 	g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
 	g_testutil->Avg("RTT",getRTT(),1.0f);
-	g_testutil->Output(proting::getTimeMs());
+	g_testutil->Output(porting::getTimeMs());
 
 	/*
 		Packet counter
@@ -833,7 +833,7 @@ void Client::Receive()
 	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
 	//g_testutil->CreateTestCase(TCT_PlayerPos);
 	{
-		std::string commandname = toClientCommandTable[pkt->getCommand()].name;
+		std::string commandname = toClientCommandTable[pkt.getCommand()].name;
 		g_testutil->Count(commandname);
 		TestCase testcase(g_testutil,commandname,TCT_AVG);
 		ProcessData(&pkt);

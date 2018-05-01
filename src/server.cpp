@@ -102,7 +102,7 @@ void *ServerThread::run()
 			m_server->Receive();
 			g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
 			g_testutil->Count("player count:",m_con.GetPeerNum());
-			g_testutil->Output(proting::getTimeMs());
+			g_testutil->Output(porting::getTimeMs());
 
 		} catch (con::NoIncomingDataException &e) {
 		} catch (con::PeerNotFoundException &e) {
