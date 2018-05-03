@@ -9,6 +9,7 @@
 #include <cerrno>
 #include <map>
 #include <utility>
+#include <ctime>
 #include "exceptions.h"
 #include "porting.h"
 #include "gettime.h"
@@ -95,8 +96,8 @@ public:
 		if(porting::getTimeMs() - m_active_time < 100 || m_finishing)return;
 		if(!m_active)return;
 		int curtime = porting::getTimeMs();
-		RecordCount();
-		RecordAverage();
+		RecordCount(curtime);
+		RecordAverage(curtime);
 		Clear();
 	}
 	void RecordCount(int curtime){
@@ -105,11 +106,11 @@ public:
 			CacheRecord(i->first,curtime,i->second);
 		}
 	}
-	void RecordAverage(){
+	void RecordAverage(int curtime){
 		std::map<std::string,int>::iterator i;
 		for(i=m_average.begin();i!=m_average.end();i++){
-			float value=j->second.first;
-			if(j->second.second>1e-6)value/=j->second.second;
+			float value=i->second.first;
+			if(i->second.second>1e-6)value/=i->second.second;
 			CacheRecord(i->first,curtime,value);
 		}
 	}
@@ -123,7 +124,7 @@ public:
 	}
 private:
 	void CacheRecord(const std::string name,const int &t,const int &v){
-		m_cache[name].push_back(Record(t,v));
+		m_cache[name].push_back(TestRecord(t,v));
 	}
 	void OutputToFile(){
 		// Record duration limit min 100ms
@@ -133,7 +134,7 @@ private:
 			// open different file for store
 			if(m_stream.is_open())m_stream.close();
 			filename = testdir + DIR_DELIM + i->first + ".txt";
-			m_stream.open(filename);
+			m_stream.open(filename.c_str(),std::ios::app|std::ios::ate);
 			if(!m_stream.good())
 				throw FileNotGoodException("Failed to open test file " +
 					filename + ": " + strerror(errno));
