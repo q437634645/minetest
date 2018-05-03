@@ -50,6 +50,7 @@ public:
 			fs::CreateDir(testdir);
 		}
 		Clear(); // be sure container be empty
+		m_cache.clear();
 		m_active = true;
 	}
 	void Finish(){
@@ -116,7 +117,6 @@ public:
 	void Clear(){
 		m_count.clear();
 		m_average.clear();
-		m_cache.clear();
 	}
 	~TestUtil(){
 		Finish();
@@ -144,6 +144,7 @@ private:
 				m_stream<<*j<<std::endl;
 			}
 		}
+		m_cache.clear();
 	}
 	std::ofstream m_stream;
 	std::map<std::string,int>m_count;
