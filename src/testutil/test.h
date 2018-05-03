@@ -9,7 +9,7 @@
 #include <cerrno>
 #include <map>
 #include <utility>
-#include <ctime>
+#include <time>
 #include "exceptions.h"
 #include "porting.h"
 #include "gettime.h"
@@ -37,8 +37,8 @@ public:
 	TestUtil():m_active(false),m_finishing(false){}
 	std::string GetTimeString(){
 		// get string of time of fromat YYMMDDHHMMSS
-		std::time_t result = std::time(NULL);
-		std::tm *tm = gmtime(result);
+		time_t result = time(NULL);
+		struct tm *tm = gmtime(&result);
 		char cs[20];
 		strftime(cs, 20, "%Y%m%d%H%M%S",tm);
 		return cs;
