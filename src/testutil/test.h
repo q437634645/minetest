@@ -21,14 +21,14 @@ extern TestUtil *g_testutil;
 #define TESTFILE "Test"
 
 class TestRecord{
-pucblic:
+public:
 	int m_time;// record time in ms
 	float m_value;// record value
 	TestRecord(int t,float v):m_time(t),m_value(v){}
 	friend ostream& operator<<(ostream &out,const TestRecord &data);
 }
 
-ostream& operator<<(ostream &out,const TestRecord &data){
+std::ostream& operator<<(std::ostream &out,const TestRecord &data){
 	out<<data.m_time<<' '<<data.m_value;
 }
 
@@ -37,14 +37,14 @@ public:
 	TestUtil():m_active(false),m_finishing(false){}
 	std::string GetTimeString(){
 		// get string of time of fromat YYMMDDHHMMSS
-		std::time_t result = std::time(nullptr);
+		std::time_t result = std::time(NULL);
 		std::tm *tm = gmtime(result);
 		char cs[20];
 		strftime(cs, 20, "%Y%m%d%H%M%S",tm);
 		return cs;
 	}
 	void Begin(){
-		if(active)return;
+		if(m_active)return;
 		m_active_time = porting::getTimeMs();
 		testdir = dirroot + DIR_DELIM + GetTimeString();
 		if(!fs::PathExists(testdir)){
@@ -54,7 +54,7 @@ public:
 		m_active = true;
 	}
 	void Finish(){
-		if(!active)return;
+		if(!m_active)return;
 		m_finishing=true;// set finishing flag
 		OutputToFile();
 		m_finishing=false;
