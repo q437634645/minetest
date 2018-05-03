@@ -102,8 +102,6 @@ void *ServerThread::run()
 
 			m_server->Receive();
 
-			m_server->TestCode();
-
 		} catch (con::NoIncomingDataException &e) {
 		} catch (con::PeerNotFoundException &e) {
 			infostream<<"Server: PeerNotFoundException"<<std::endl;
@@ -392,12 +390,6 @@ Server::~Server()
 	}
 }
 
-void Server::TestCode(){
-	g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
-	g_testutil->Count("player count:",m_con.GetPeerNum());
-	g_testutil->Output();
-}
-
 void Server::start(Address bind_addr)
 {
 	DSTACK(FUNCTION_NAME);
@@ -492,6 +484,9 @@ void Server::AsyncRunStep(bool initial_step)
 	if((dtime < 0.001) && (initial_step == false))
 		return;
 
+	g_testutil->Count("unhandle packet",m_con.GetEventQueueSize());
+	g_testutil->Count("player count",m_con.GetPeerNum());
+	g_testutil->RecordAll();
 	/*
 	 * Log Code
 	 */

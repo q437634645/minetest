@@ -296,9 +296,10 @@ void Client::step(float dtime)
 	 * Function handle received packet in a limited time
 	 */
 	ReceiveAll();
-	g_testutil->Count("packet unhandle",m_con.GetEventQueueSize());
+	g_testutil->Count("unhandle packet",m_con.GetEventQueueSize());
 	g_testutil->Avg("RTT",getRTT(),1.0f);
-	g_testutil->Output();
+	//g_testutil->Output();
+	g_testutil->RecordAdd();
 
 	/*
 		Packet counter
@@ -831,14 +832,12 @@ void Client::Receive()
 	// PacketNumber ++;
 	// startTime  
 	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
-	//g_testutil->CreateTestCase(TCT_PlayerPos);
 	{
 		std::string commandname = toClientCommandTable[pkt.getCommand()].name;
-		g_testutil->Count(commandname);
-		TestCase testcase(g_testutil,commandname,TCT_AVG);
+		g_testutil->Count(commandname+"(count)");
+		TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
 		ProcessData(&pkt);
 	}
-	//g_testutil->FinishTestCase();
 }
 
 inline void Client::handleCommand(NetworkPacket* pkt)
@@ -1353,7 +1352,6 @@ void Client::sendPlayerPos()
 	/*
 	 * Log Test: Record Time of call function Client::sendPlayerPos
 	*/
-	//g_testutil->CreateTestCase(TCT_PlayerPos);
 
 	myplayer->last_position     = myplayer->getPosition();
 	myplayer->last_speed        = myplayer->getSpeed();

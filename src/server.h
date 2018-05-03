@@ -371,8 +371,6 @@ public:
 	virtual bool registerModStorage(ModMetadata *storage);
 	virtual void unregisterModStorage(const std::string &name);
 
-	void TestCode();
-
 	// Bind address
 	Address m_bind_addr;
 
