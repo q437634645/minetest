@@ -9,7 +9,7 @@
 #include <cerrno>
 #include <map>
 #include <utility>
-#include <time>
+#include <time.h>
 #include "exceptions.h"
 #include "porting.h"
 #include "gettime.h"
