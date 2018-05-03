@@ -107,7 +107,7 @@ public:
 		}
 	}
 	void RecordAverage(int curtime){
-		std::map<std::string,int>::iterator i;
+		std::map<std::string,std::pair<float,float> >::iterator i;
 		for(i=m_average.begin();i!=m_average.end();i++){
 			float value=i->second.first;
 			if(i->second.second>1e-6)value/=i->second.second;
