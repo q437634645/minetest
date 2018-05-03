@@ -26,7 +26,7 @@ public:
 	float m_value;// record value
 	TestRecord(int t,float v):m_time(t),m_value(v){}
 	friend std::ostream& operator<<(ostream &out,const TestRecord &data);
-}
+};
 
 std::ostream& operator<<(std::ostream &out,const TestRecord &data){
 	out<<data.m_time<<' '<<data.m_value;
