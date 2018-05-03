@@ -30,6 +30,7 @@ public:
 
 std::ostream& operator<<(std::ostream &out,const TestRecord &data){
 	out<<data.m_time<<' '<<data.m_value;
+	return out;
 }
 
 class TestUtil{

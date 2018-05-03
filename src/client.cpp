@@ -299,7 +299,7 @@ void Client::step(float dtime)
 	g_testutil->Count("unhandle packet",m_con.GetEventQueueSize());
 	g_testutil->Avg("RTT",getRTT(),1.0f);
 	//g_testutil->Output();
-	g_testutil->RecordAdd();
+	g_testutil->RecordAll();
 
 	/*
 		Packet counter
