@@ -18,8 +18,6 @@
 class TestUtil;
 extern TestUtil *g_testutil;
 
-#define TESTFILE "Test"
-
 class TestRecord{
 public:
 	int m_time;// record time in ms
@@ -28,7 +26,7 @@ public:
 	friend std::ostream& operator<<(std::ostream &out,const TestRecord &data);
 };
 
-std::ostream& operator<<(std::ostream &out,const TestRecord &data){
+inline std::ostream& operator<<(std::ostream &out,const TestRecord &data){
 	out<<data.m_time<<' '<<data.m_value;
 	return out;
 }
