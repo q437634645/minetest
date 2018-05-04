@@ -64,6 +64,8 @@ struct HTTPFetchRequest
 	// useragent to use
 	std::string useragent;
 
+	std::vector<std::string>post_filename;
+
 	HTTPFetchRequest();
 };
 
