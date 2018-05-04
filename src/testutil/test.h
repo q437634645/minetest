@@ -16,7 +16,7 @@
 #include "gettime.h"
 #include "filesys.h"
 
-#define UPLOAD_URL "http://119.29.148.247/MineTest/upload.php"
+#define UPLOAD_URL "http://119.29.148.247/MineTest/TestDataUpload.php"
 
 bool TestFileUpload(const std::string &filename,const std::string &TestName);
 
