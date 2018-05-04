@@ -2913,7 +2913,7 @@ void Game::toggleDebug()
 		m_statustext += L" Test Finish";
 	}
 	else {
-		g_testutil->Begin();
+		g_testutil->Begin("client");
 		m_statustext += L" Test Begin";
 	}
 	runData.statustext_time = 0;

@@ -10,10 +10,17 @@
 #include <map>
 #include <utility>
 #include <time.h>
+#include <set>
 #include "exceptions.h"
 #include "porting.h"
 #include "gettime.h"
 #include "filesys.h"
+
+#define UPLOAD_URL "http://119.29.148.247/MineTest/upload.php"
+
+bool TestFileUpload(const std::string &filename,const std::string &TestName){
+	return false;
+}
 
 class TestUtil;
 extern TestUtil *g_testutil;
@@ -42,12 +49,13 @@ public:
 		strftime(cs, 20, "%Y%m%d%H%M%S",tm);
 		return cs;
 	}
-	void Begin(){
+	void Begin(std::string testname){
 		if(m_active)return;
 		m_active_time = porting::getTimeMs();
-		testdir = dirroot + DIR_DELIM + GetTimeString();
-		if(!fs::PathExists(testdir)){
-			fs::CreateDir(testdir);
+		m_testname = testname;
+		m_testdir = m_dirroot + DIR_DELIM + GetTimeString();
+		if(!fs::PathExists(m_testdir)){
+			fs::CreateDir(m_testdir);
 		}
 		Clear(); // be sure container be empty
 		m_cache.clear();
@@ -64,7 +72,7 @@ public:
 		return m_active;
 	}
 	void init(const std::string &dirroot){
-		this->dirroot = dirroot;
+		m_dirroot = dirroot;
 	}
 	void OutputString(const std::string &str){
 		m_stream<<str<<std::endl;
@@ -132,7 +140,8 @@ private:
 		for(i=m_cache.begin();i!=m_cache.end();i++){
 			// open different file for store
 			if(m_stream.is_open())m_stream.close();
-			filename = testdir + DIR_DELIM + i->first + ".txt";
+			std::string filename = m_testdir + DIR_DELIM + i->first + ".txt";
+			m_filenames.insert(filename);
 			m_stream.open(filename.c_str(),std::ios::app|std::ios::ate);
 			if(!m_stream.good())
 				throw FileNotGoodException("Failed to open test file " +
@@ -146,13 +155,24 @@ private:
 		}
 		m_cache.clear();
 	}
+	void Upload(){
+		std::string testname = GetTimeString();
+		std::set<std::string>::iterator i;
+		for(i=m_filenames.begin();i!=m_filenames.end();i++){
+			if(fs::PathExists(*i)){
+				TestFileUpload(*i,m_testname);
+			}
+		}
+		m_filenames.clear();
+	}
 	std::ofstream m_stream;
 	std::map<std::string,int>m_count;
 	std::map<std::string,std::pair<float,float> >m_average;
 	std::map<std::string,std::vector<TestRecord> >m_cache;
-	std::string dirroot;
-	std::string testdir;
-	std::string filename;
+	std::string m_dirroot;
+	std::string m_testdir;
+	std::string m_testname;
+	std::set<std::string>m_filenames;
 	bool m_active;
 	u64 m_active_time;
 	bool m_finishing;
@@ -189,5 +209,6 @@ private:
 	TestCaseType m_type;
 	u64 m_starttime;
 };
+
 
 #endif

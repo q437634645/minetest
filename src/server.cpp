@@ -93,7 +93,7 @@ void *ServerThread::run()
 
 	m_server->AsyncRunStep(true);
 
-	g_testutil->Begin();
+	g_testutil->Begin("server");
 	while (!stopRequested()) {
 		try {
 			//TimeTaker timer("AsyncRunStep() + Receive()");
