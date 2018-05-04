@@ -293,6 +293,7 @@ HTTPFetchOngoing::HTTPFetchOngoing(const HTTPFetchRequest &request_,
 
 	// Set POST (or GET) data
 	if(!request.post_filename.empty()){
+		curl_httppost *last = NULL;
 		curl_formadd(&post,&last,
 				CURLFORM_COPYNAME,"name",
 				CURLFORM_FILE,request.post_filename[0].c_str(),
