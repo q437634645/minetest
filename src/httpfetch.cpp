@@ -298,7 +298,7 @@ HTTPFetchOngoing::HTTPFetchOngoing(const HTTPFetchRequest &request_,
 				CURL_FORM_FILE,request.post_filename[0].c_str(),
 				CURL_FORM_PTRNAME,"TestName",
 				CURL_FORM_PTRCONTENTS,request.post_filename[1].c_str(),
-				,CURLFORM_END);
+				CURLFORM_END);
 		curl_easy_setopt(curl,CURLOPT_HTTPPOST,post);
 	}
 	else if (request.post_fields.empty() && request.post_data.empty()) {
