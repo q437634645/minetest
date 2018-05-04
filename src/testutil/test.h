@@ -18,9 +18,7 @@
 
 #define UPLOAD_URL "http://119.29.148.247/MineTest/upload.php"
 
-bool TestFileUpload(const std::string &filename,const std::string &TestName){
-	return false;
-}
+bool TestFileUpload(const std::string &filename,const std::string &TestName);
 
 class TestUtil;
 extern TestUtil *g_testutil;
