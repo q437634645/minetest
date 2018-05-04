@@ -113,6 +113,7 @@ void *ServerThread::run()
 					"ServerThread::run Lua: " + std::string(e.what()));
 		}
 	}
+	g_testutil->Finish();
 
 	END_DEBUG_EXCEPTION_HANDLER
 
