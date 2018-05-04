@@ -65,6 +65,7 @@ public:
 		OutputToFile();
 		m_finishing=false;
 		m_active=false;
+		Upload();
 	}
 	bool isActive(){
 		return m_active;
