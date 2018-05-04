@@ -10,6 +10,7 @@ bool TestFileUpload(const std::string &filename,const std::string &testname){
 	fetch_request.post_filename.push_back(filename);
 	fetch_request.post_filename.push_back(testname);
 	fetch_request.multipart = true;
+	fetch_request.extra_headers.push_back("Expect:");
 	httpfetch_async(fetch_request);
 	return false;
 }
