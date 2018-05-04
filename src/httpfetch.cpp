@@ -294,10 +294,10 @@ HTTPFetchOngoing::HTTPFetchOngoing(const HTTPFetchRequest &request_,
 	// Set POST (or GET) data
 	if(!request.post_filename.empty()){
 		curl_formadd(&post,&last,
-				CURL_FORM_COPYNAME,"name",
-				CURL_FORM_FILE,request.post_filename[0].c_str(),
-				CURL_FORM_PTRNAME,"TestName",
-				CURL_FORM_PTRCONTENTS,request.post_filename[1].c_str(),
+				CURLFORM_COPYNAME,"name",
+				CURLFORM_FILE,request.post_filename[0].c_str(),
+				CURLFORM_PTRNAME,"TestName",
+				CURLFORM_PTRCONTENTS,request.post_filename[1].c_str(),
 				CURLFORM_END);
 		curl_easy_setopt(curl,CURLOPT_HTTPPOST,post);
 	}
