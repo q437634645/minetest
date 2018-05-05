@@ -50,8 +50,9 @@ public:
 	void Begin(std::string testname){
 		if(m_active)return;
 		m_active_time = porting::getTimeMs();
-		m_testname = testname;
-		m_testdir = m_dirroot + DIR_DELIM + GetTimeString();
+		std::string timestring = GetTimeString();
+		m_testname = testname + timestring;
+		m_testdir = m_dirroot + DIR_DELIM + timestring;
 		if(!fs::PathExists(m_testdir)){
 			fs::CreateDir(m_testdir);
 		}
@@ -129,7 +130,7 @@ public:
 		Finish();
 	}
 private:
-	void CacheRecord(const std::string name,const int &t,const int &v){
+	void CacheRecord(const std::string name,const int &t,const float &v){
 		m_cache[name].push_back(TestRecord(t,v));
 	}
 	void OutputToFile(){
