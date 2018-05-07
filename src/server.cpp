@@ -1084,7 +1084,7 @@ void Server::Receive()
 		{
 			std::string commandname = toServerCommandTable[pkt.getCommand()].name;
 			g_testutil->Count(commandname);
-			TestCase testcase(g_testutil,commandname,TCT_AVG);
+			TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
 			ProcessData(&pkt);
 		}
 	}

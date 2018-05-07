@@ -104,6 +104,7 @@ public:
 		if(porting::getTimeMs() - m_active_time < 100 || m_finishing)return;
 		if(!m_active)return;
 		int curtime = porting::getTimeMs();
+		//Record empty or Record time
 		RecordCount(curtime);
 		RecordAverage(curtime);
 		Clear();
