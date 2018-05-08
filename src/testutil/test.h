@@ -197,10 +197,10 @@ public:
 		u64 costtime = porting::getTimeMs() - m_starttime;
 		switch(m_type){
 			case TCT_AVG:
-				m_testutil->Count(m_name);
-				break;
 				m_testutil->Avg(m_name,costtime,1.0f);
+				break;
 			case TCT_COUNT:
+				m_testutil->Count(m_name);
 				break;
 		}
 	}
