@@ -1666,7 +1666,7 @@ void Game::run()
 		 * uses device->getTimer()->getTime()
 		 */
 		{
-			TestCast testcast(g_testutil,"Logic(CostTime)",TCT_AVG);
+			TestCase testcase(g_testutil,"Logic(CostTime)",TCT_AVG);
 			limitFps(&draw_times, &dtime);
 
 			updateStats(&stats, draw_times, dtime);
