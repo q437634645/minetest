@@ -296,7 +296,7 @@ void Client::step(float dtime)
 	 * Function handle received packet in a limited time
 	 */
 	{
-		TestCast testcast(g_testutil,"Receive(CostTime)",TCT_AVG);
+		TestCase testcase(g_testutil,"Receive(CostTime)",TCT_AVG);
 		ReceiveAll();
 	}
 	g_testutil->Count("unhandle packet",m_con.GetEventQueueSize());
