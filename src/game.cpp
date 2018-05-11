@@ -1665,55 +1665,61 @@ void Game::run()
 		/* Must be called immediately after a device->run() call because it
 		 * uses device->getTimer()->getTime()
 		 */
-		limitFps(&draw_times, &dtime);
+		{
+			TestCast testcast(g_testutil,"Logic(CostTime)",TCT_AVG);
+			limitFps(&draw_times, &dtime);
 
-		updateStats(&stats, draw_times, dtime);
-		updateInteractTimers(dtime);
+			updateStats(&stats, draw_times, dtime);
+			updateInteractTimers(dtime);
 
-		if (!checkConnection())
-			break;
-		if (!handleCallbacks())
-			break;
+			if (!checkConnection())
+				break;
+			if (!handleCallbacks())
+				break;
 
-		processQueues();
+			processQueues();
 
-		infotext = L"";
-		hud->resizeHotbar();
+			infotext = L"";
+			hud->resizeHotbar();
 
-		updateProfilers(stats, draw_times, dtime);
-		/*
-		 * Log Mark:Test Game::processUserInput
-		 */
-		processUserInput(dtime);
-		// Update camera before player movement to avoid camera lag of one frame
-		updateCameraDirection(&cam_view_target, dtime);
-		cam_view.camera_yaw += (cam_view_target.camera_yaw -
-				cam_view.camera_yaw) * m_cache_cam_smoothing;
-		cam_view.camera_pitch += (cam_view_target.camera_pitch -
-				cam_view.camera_pitch) * m_cache_cam_smoothing;
-		updatePlayerControl(cam_view);
-		/*
-		 * Log Mark:Test Game::step
-		 * This function handle step process,include singleplay server and client
-		 */
-		step(&dtime);
-		/*
-		 * Log Mark:
-		 * This function process client event,including DAMAGE_EVENT,etc.
-		 */
-		processClientEvents(&cam_view_target);
-		/*
-		 * Log Mark:
-		 * This function process switch Camera and ?update player's position
-		 */
-		updateCamera(draw_times.busy_time, dtime);
-		updateSound(dtime);
+			updateProfilers(stats, draw_times, dtime);
+			/*
+			 * Log Mark:Test Game::processUserInput
+			 */
+			processUserInput(dtime);
+			// Update camera before player movement to avoid camera lag of one frame
+			updateCameraDirection(&cam_view_target, dtime);
+			cam_view.camera_yaw += (cam_view_target.camera_yaw -
+					cam_view.camera_yaw) * m_cache_cam_smoothing;
+			cam_view.camera_pitch += (cam_view_target.camera_pitch -
+					cam_view.camera_pitch) * m_cache_cam_smoothing;
+			updatePlayerControl(cam_view);
+			/*
+			 * Log Mark:Test Game::step
+			 * This function handle step process,include singleplay server and client
+			 */
+			step(&dtime);
+			/*
+			 * Log Mark:
+			 * This function process client event,including DAMAGE_EVENT,etc.
+			 */
+			processClientEvents(&cam_view_target);
+			/*
+			 * Log Mark:
+			 * This function process switch Camera and ?update player's position
+			 */
+			updateCamera(draw_times.busy_time, dtime);
+			updateSound(dtime);
+		}
 		processPlayerInteraction(dtime, flags.show_hud, flags.show_debug);
-		updateFrame(&graph, &stats, dtime, cam_view);
-		updateProfilerGraphs(&graph);
+		{
+			TestCase testcase(g_testutil,"Render(CostTime)",TCT_AVG);
+			updateFrame(&graph, &stats, dtime, cam_view);
+			updateProfilerGraphs(&graph);
 
-		// Update if minimap has been disabled by the server
-		flags.show_minimap &= client->shouldShowMinimap();
+			// Update if minimap has been disabled by the server
+			flags.show_minimap &= client->shouldShowMinimap();
+		}
 	}
 }
 

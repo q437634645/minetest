@@ -1082,9 +1082,10 @@ void Server::Receive()
 			<<"Command="<<toServerCommandTable[pkt.getCommand()].name<<" PeerId="<<peer_id<<std::endl;
 		*/
 		{
-			std::string commandname = toServerCommandTable[pkt.getCommand()].name;
-			g_testutil->Count(commandname);
-			TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
+			//std::string commandname = toServerCommandTable[pkt.getCommand()].name;
+			//g_testutil->Count(commandname);
+			//TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
+			g_testutil.Count("PacketProcessed");
 			ProcessData(&pkt);
 		}
 	}

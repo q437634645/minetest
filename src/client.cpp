@@ -295,9 +295,12 @@ void Client::step(float dtime)
 	 * Log Mark:Test Client::ReceiveAll
 	 * Function handle received packet in a limited time
 	 */
-	ReceiveAll();
+	{
+		TestCast testcast(g_testutil,"Receive(CostTime)",TCT_AVG);
+		ReceiveAll();
+	}
 	g_testutil->Count("unhandle packet",m_con.GetEventQueueSize());
-	g_testutil->Avg("RTT",getRTT(),1.0f);
+	//g_testutil->Avg("RTT",getRTT(),1.0f);
 	//g_testutil->Output();
 	g_testutil->RecordAll();
 
@@ -823,19 +826,11 @@ void Client::Receive()
 	DSTACK(FUNCTION_NAME);
 	NetworkPacket pkt;
 	m_con.Receive(&pkt);
-	/*
-	infostream <<"[Log Mark]:Client::Receive"
-		<< "Command="
-		<<toClientCommandTable[pkt.getCommand()].name
-		<<" PeerId="<<pkt.getPeerId()<<std::endl;
-	*/
-	// PacketNumber ++;
-	// startTime  
-	// ToClientCommand command = (ToClientCommand)pkt->getCommand();
 	{
-		std::string commandname = toClientCommandTable[pkt.getCommand()].name;
-		g_testutil->Count(commandname+"(count)");
-		TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
+		//std::string commandname = toClientCommandTable[pkt.getCommand()].name;
+		//g_testutil->Count(commandname+"(count)");
+		//TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
+		g_testutil->Count("PacketProcessed");
 		ProcessData(&pkt);
 	}
 }
