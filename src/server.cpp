@@ -1085,7 +1085,7 @@ void Server::Receive()
 			//std::string commandname = toServerCommandTable[pkt.getCommand()].name;
 			//g_testutil->Count(commandname);
 			//TestCase testcase(g_testutil,commandname+"(CostTime)",TCT_AVG);
-			g_testutil.Count("PacketProcessed");
+			g_testutil->Count("PacketProcessed");
 			ProcessData(&pkt);
 		}
 	}
