@@ -2839,6 +2839,7 @@ ConnectionEvent Connection::waitEvent(u32 timeout_ms)
 	} catch(ItemNotFoundException &ex) {
 		ConnectionEvent e;
 		e.type = CONNEVENT_NONE;
+		e.time = -1;
 		return e;
 	}
 }
@@ -2896,8 +2897,10 @@ void Connection::Receive(NetworkPacket* pkt)
 		/*
 		 * Log Code:Test Event wait time
 		 */
-		float costTime = porting::getTimeMs() - e.time;
-		g_testutil->Avg("ConnectEventWaitTime",costTime,1.0f);
+		if(e.time!=-1){
+			float costTime = porting::getTimeMs() - e.time;
+			g_testutil->Avg("ConnectEventWaitTime",costTime,1.0f);
+		}
 		if (e.type != CONNEVENT_NONE)
 			LOG(dout_con << getDesc() << ": Receive: got event: "
 					<< e.describe() << std::endl);
