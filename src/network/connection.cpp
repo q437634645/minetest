@@ -2730,6 +2730,10 @@ Connection::~Connection()
 void Connection::putEvent(ConnectionEvent &e)
 {
 	assert(e.type != CONNEVENT_NONE); // Pre-condition
+	/*
+	 * Log Code
+	 */
+	e.time = porting::getTimeMs();
 	m_event_queue.push_back(e);
 }
 
