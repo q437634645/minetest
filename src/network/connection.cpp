@@ -2892,7 +2892,7 @@ void Connection::Receive(NetworkPacket* pkt)
 		/*
 		 * Log Code:Test Event wait time
 		 */
-		float costTime = porting::getTimeMs() - e.Time;
+		float costTime = porting::getTimeMs() - e.time;
 		g_testutil->Avg("ConnectEventWaitTime",costTime,1.0f);
 		if (e.type != CONNEVENT_NONE)
 			LOG(dout_con << getDesc() << ": Receive: got event: "
