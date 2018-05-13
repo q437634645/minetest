@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/string.h"
 #include "settings.h"
 #include "profiler.h"
+#include "testutil/test.h"
 
 namespace con
 {
@@ -2888,6 +2889,11 @@ void Connection::Receive(NetworkPacket* pkt)
 {
 	for(;;) {
 		ConnectionEvent e = waitEvent(m_bc_receive_timeout);
+		/*
+		 * Log Code:Test Event wait time
+		 */
+		float costTime = porting::getTimeMs() - e.Time;
+		g_testutil->Avg("ConnectEventWaitTime",costTime,1.0f);
 		if (e.type != CONNEVENT_NONE)
 			LOG(dout_con << getDesc() << ": Receive: got event: "
 					<< e.describe() << std::endl);

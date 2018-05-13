@@ -853,6 +853,7 @@ struct ConnectionEvent
 	Buffer<u8> data;
 	bool timeout;
 	Address address;
+	float time;
 
 	ConnectionEvent(): type(CONNEVENT_NONE), peer_id(0),
 			timeout(false) {}
@@ -879,12 +880,14 @@ struct ConnectionEvent
 		type = CONNEVENT_DATA_RECEIVED;
 		peer_id = peer_id_;
 		data = data_;
+		time = porting::getTimeMs();
 	}
 	void peerAdded(u16 peer_id_, Address address_)
 	{
 		type = CONNEVENT_PEER_ADDED;
 		peer_id = peer_id_;
 		address = address_;
+		time = porting::getTimeMs();
 	}
 	void peerRemoved(u16 peer_id_, bool timeout_, Address address_)
 	{
@@ -892,10 +895,12 @@ struct ConnectionEvent
 		peer_id = peer_id_;
 		timeout = timeout_;
 		address = address_;
+		time = porting::getTimeMs();
 	}
 	void bindFailed()
 	{
 		type = CONNEVENT_BIND_FAILED;
+		time = porting::getTimeMs();
 	}
 };
 
