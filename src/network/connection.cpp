@@ -2908,11 +2908,11 @@ void Connection::Receive(NetworkPacket* pkt)
 			if (e.data.getSize() < 2) {
 				continue;
 			}
-			pkt->putRawPacket(*e.data, e.data.getSize(), e.peer_id);
 			if(e.time!=-1){
 				float costTime = porting::getTimeMs() - e.time;
 				g_testutil->Avg("PacketWaitTime",costTime,1.0f);
 			}
+			pkt->putRawPacket(*e.data, e.data.getSize(), e.peer_id);
 			return;
 		case CONNEVENT_PEER_ADDED: {
 			UDPPeer tmp(e.peer_id, e.address, this);
