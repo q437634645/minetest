@@ -636,7 +636,8 @@ typedef enum {
 	AVG_RTT,
 	MIN_JITTER,
 	MAX_JITTER,
-	AVG_JITTER
+	AVG_JITTER,
+	LAST_RTT
 } rtt_stat_type;
 
 typedef enum {
@@ -725,6 +726,8 @@ class Peer {
 					return m_rtt.jitter_max;
 				case AVG_JITTER:
 					return m_rtt.jitter_avg;
+				case LAST_RTT:
+					return m_last_rtt;
 			}
 			return -1;
 		}
