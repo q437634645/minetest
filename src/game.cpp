@@ -2892,6 +2892,7 @@ void Game::toggleDebug()
 	// 1x toggle: Debug text with chat
 	// 2x toggle: Debug text with profiler graph
 	// 3x toggle: Debug text and wireframe
+	/*
 	if (!flags.show_debug) {
 		flags.show_debug = true;
 		flags.show_profiler_graph = false;
@@ -2913,12 +2914,20 @@ void Game::toggleDebug()
 		} else {
 			m_statustext = L"Debug info and profiler graph hidden";
 		}
-	}
+	}*/
 	if(g_testutil->isActive()){
+		flags.show_debug = false;
+		flags.show_profiler_graph = false;
+		draw_control->show_wireframe = false;
+		m_statustext += L"Debug Finish";
 		g_testutil->Finish();
 		m_statustext += L" Test Finish";
 	}
 	else {
+		flags.show_debug = true;
+		flags.show_profiler_graph = false;
+		draw_control->show_wireframe = false;
+		m_statustext += L"Debug Begin";
 		g_testutil->Begin("client");
 		m_statustext += L" Test Begin";
 	}
