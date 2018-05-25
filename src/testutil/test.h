@@ -101,8 +101,8 @@ public:
 	}
 	// Record All Data To Cache
 	void RecordAll(){
-		if(porting::getTimeMs() - m_active_time < 100 || m_finishing)return;
-		if(!m_active)return;
+		//if(porting::getTimeMs() - m_active_time < 100)return;
+		if(!(m_active||m_finishing))return;
 		int curtime = porting::getTimeMs();
 		//Record empty or Record time
 		RecordCount(curtime);
