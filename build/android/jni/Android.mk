@@ -286,6 +286,10 @@ LOCAL_SRC_FILES += \
 		jni/src/network/serveropcodes.cpp         \
 		jni/src/network/serverpackethandler.cpp   \
 
+# TestUtil
+LOCAL_SRC_FILES +=\
+		jni/src/testutil/test.cpp		  \
+
 # lua api
 LOCAL_SRC_FILES += \
 		jni/src/script/common/c_content.cpp       \
